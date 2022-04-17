@@ -156,14 +156,15 @@ int main(void)
     for (int i = 0; i < 10; i++)
     {
         element.data = i;
+        element.pLink = NULL;
         addLLElement(list, i, element);
     }
     displayLinkedList(list);
     removeLLElement(list, 5);
     displayLinkedList(list);
     temp = getLLElement(list, 5);
-    printf("%d\n", temp->data);
-    printf("%d\n", getLinkedListLength(list));
+    printf("data : %d\n", temp->data);
+    printf("length : %d\n", getLinkedListLength(list));
     clearLinkedList(list);
     displayLinkedList(list);
     deleteLinkedList(list);

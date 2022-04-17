@@ -1,171 +1,141 @@
-#include "linkedlist.h"
+#include "arraylist.h"
 #include <stdio.h>
 #include <stdlib.h>
 
-LinkedList* createLinkedList()
+ArrayList *createArrayList(int maxElementCount)
 {
-    LinkedList  *pList;
+    ArrayList *pList;
 
-    pList = malloc(sizeof(LinkedList));
+    pList = (ArrayList *)malloc(sizeof(ArrayList));
     if (!pList)
         return (FALSE);
-    pList->headerNode.pLink = NULL;
-    pList->headerNode.data = 0;
+    pList->maxElementCount = maxElementCount;
     pList->currentElementCount = 0;
+    pList->pElement = (ArrayListNode *)malloc(sizeof(ArrayListNode) * maxElementCount);
     return (pList);
 }
 
-int addLLElement(LinkedList* pList, int position, ListNode element)
+void deleteArrayList(ArrayList *pList)
 {
-    int         idx;
-    ListNode    *tmp;
-    ListNode    *tmp2;
+    if (pList->pElement != NULL)
+        free(pList->pElement);
+    if (pList != NULL)
+        free(pList);
+}
 
+int isArrayListFull(ArrayList *pList)
+{
+    if (pList->currentElementCount == pList->maxElementCount)
+        return (TRUE);
+    else
+        return (FALSE);
+}
+
+int addALElement(ArrayList *pList, int position, ArrayListNode element)
+{
+    int idx;
+
+    if (position >= pList->maxElementCount)
+        return (FALSE);
     if (position < 0)
         return (FALSE);
-    if (position >= pList->currentElementCount)//맨 뒤
-    {
-        if (pList->headerNode.pLink == NULL)
-        {
-            tmp = malloc(sizeof(ListNode));
-            if (!tmp)
-                return (FALSE);
-            tmp->data = element.data;
-            tmp->pLink = element.pLink;
-            pList->headerNode.pLink = tmp;
-        }
-        else
-        {
-            tmp = pList->headerNode.pLink;
-            while (tmp->pLink != NULL)
-                tmp = tmp->pLink;
-            tmp2 = malloc(sizeof(ListNode));
-            if (!tmp2)
-                return (FALSE);
-            tmp2->data = element.data;
-            tmp2->pLink = element.pLink;
-            tmp->pLink = tmp2;
-        }
-    }
-    else
-    {
-        idx = -1;
-        tmp = pList->headerNode.pLink;
-        while (++idx < position - 1)
-            tmp = tmp->pLink;
-        tmp2 = malloc(sizeof(ListNode));
-        if (!tmp2)
-            return (FALSE);
-        tmp2->data = element.data;
-        tmp2->pLink = tmp->pLink;
-        tmp->pLink = tmp2;
-    }
+    if (isArrayListFull(pList) == TRUE)
+        return (FALSE);
+    idx = getArrayListLength(pList);
+    while (--idx >= position)
+        pList->pElement[idx + 1] = pList->pElement[idx];
+    pList->pElement[position] = element;
     pList->currentElementCount++;
     return (TRUE);
 }
 
-int removeLLElement(LinkedList* pList, int position)
+int removeALElement(ArrayList *pList, int position)
 {
-    int         idx;
-    ListNode    *tmp;
-    ListNode    *rm;
+    int idx;
 
+    if (position >= pList->maxElementCount)
+        return (FALSE);
     if (position < 0)
         return (FALSE);
-    if (position >= pList->currentElementCount)
+    if (getArrayListLength(pList) == 0)
         return (FALSE);
-    idx = -1;
-    tmp = pList->headerNode.pLink;
-    while (++idx < position - 2)
-        tmp = tmp->pLink;
-    rm = tmp->pLink;
-    tmp->pLink = rm->pLink;
-    free(rm);
+    idx = position;//
+    while (++idx < getArrayListLength(pList))//
+        pList->pElement[idx - 1] = pList->pElement[idx];
     pList->currentElementCount--;
     return (TRUE);
 }
 
-ListNode* getLLElement(LinkedList* pList, int position)
+ArrayListNode *getALElement(ArrayList *pList, int position)
 {
-    int         idx;
-    ListNode    *tmp;
-
+    if (position >= pList->maxElementCount)
+        return (NULL);
     if (position < 0)
-        return (FALSE);
-    if (position >= pList->currentElementCount)
-        return (FALSE);
-    idx = -1;
-    tmp = pList->headerNode.pLink;
-    while (++idx < position - 1)
-        tmp = tmp->pLink;
-    return (tmp);
+        return (NULL);
+    if (getArrayListLength(pList) == 0)
+        return (NULL);
+    return (&(pList->pElement[position]));
 }
 
-void clearLinkedList(LinkedList* pList)
+void displayArrayList(ArrayList *pList)
 {
-    ListNode    *tmp;
-    ListNode    *tmp2;
+    int idx;
 
-    pList->currentElementCount = 0;
-    tmp = pList->headerNode.pLink;
-    while (tmp->pLink)
+    if (pList == NULL)
     {
-        tmp2 = tmp->pLink;
-        free(tmp);
-        tmp = tmp2;
+        printf("empty array\n");
+        return ;
     }
+    idx = -1;
+    while (++idx < pList->currentElementCount - 1)
+        printf("%d -> ", pList->pElement[idx].data);
+    printf("%d\n", pList->pElement[idx].data);
 }
 
-int getLinkedListLength(LinkedList* pList)
+void clearArrayList(ArrayList *pList)
+{
+    int idx;
+
+    idx = -1;
+    while (++idx < pList->currentElementCount)
+        pList->pElement[idx].data = 0;
+}
+
+int getArrayListLength(ArrayList *pList)
 {
     return (pList->currentElementCount);
 }
 
-void deleteLinkedList(LinkedList* pList)
-{
-    if (pList->currentElementCount != 0)
-        clearLinkedList(pList);
-    free(pList);
-}
-
-void displayLinkedList(LinkedList* pList)
-{
-    ListNode *temp;
-
-    if (pList->currentElementCount == 0)
-    {
-        printf("empty list!!\n");
-        return ;
-    }
-    temp = pList->headerNode.pLink;
-    while (temp->pLink != NULL)
-    {
-        printf("%d -> ", temp->data);
-        temp = temp->pLink;
-    }
-    printf("%d\n", temp->data);
-}
-
 int main(void)
 {
-    LinkedList *list;
-    ListNode *temp;
-    ListNode element;
+    ArrayList *top;
+    ArrayListNode *temp;
+    ArrayListNode element;
 
-    list = createLinkedList();
-    for (int i = 0; i < 10; i++)
+    top = createArrayList(5);
+    for (int i = 0; i < 5; i++)
     {
         element.data = i;
-        addLLElement(list, i, element);
+        addALElement(top, i, element);
     }
-    displayLinkedList(list);
-    removeLLElement(list, 5);
-    displayLinkedList(list);
-    temp = getLLElement(list, 5);
-    printf("%d\n", temp->data);
-    printf("%d\n", getLinkedListLength(list));
-    clearLinkedList(list);
-    displayLinkedList(list);
-    deleteLinkedList(list);
+    displayArrayList(top);
+    if (isArrayListFull(top))
+        printf("array is full\n");
+    else
+        printf("array is not full\n");
+    removeALElement(top, 3);
+    displayArrayList(top);
+    if (isArrayListFull(top))
+        printf("array is full\n");
+    else
+        printf("array is not full\n");
+    temp = getALElement(top, 3);
+    printf("data : %d\n", temp->data);
+    printf("length : %d\n", getArrayListLength(top));
+    clearArrayList(top);
+    displayArrayList(top);
+    deleteArrayList(top);
+    top = NULL;
+    displayArrayList(top);
     return (0);
 }
