@@ -46,7 +46,6 @@ int addLLElement(LinkedList* pList, int position, ListNode element)
             tmp2->pLink = element.pLink;
             tmp->pLink = tmp2;
         }
-
     }
     else
     {
@@ -124,6 +123,49 @@ int getLinkedListLength(LinkedList* pList)
 
 void deleteLinkedList(LinkedList* pList)
 {
-    clearLinkedList(pList);
+    if (pList->currentElementCount != 0)
+        clearLinkedList(pList);
     free(pList);
+}
+
+void displayLinkedList(LinkedList* pList)
+{
+    ListNode *temp;
+
+    if (pList->currentElementCount == 0)
+    {
+        printf("empty list!!\n");
+        return ;
+    }
+    temp = pList->headerNode.pLink;
+    while (temp->pLink != NULL)
+    {
+        printf("%d -> ", temp->data);
+        temp = temp->pLink;
+    }
+    printf("%d\n", temp->data);
+}
+
+int main(void)
+{
+    LinkedList *list;
+    ListNode *temp;
+    ListNode element;
+
+    list = createLinkedList();
+    for (int i = 0; i < 10; i++)
+    {
+        element.data = i;
+        addLLElement(list, i, element);
+    }
+    displayLinkedList(list);
+    removeLLElement(list, 5);
+    displayLinkedList(list);
+    temp = getLLElement(list, 5);
+    printf("%d\n", temp->data);
+    printf("%d\n", getLinkedListLength(list));
+    clearLinkedList(list);
+    displayLinkedList(list);
+    deleteLinkedList(list);
+    return (0);
 }

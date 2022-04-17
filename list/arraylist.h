@@ -14,7 +14,7 @@ typedef struct ArrayListType
 } ArrayList;
 
 ArrayList* createArrayList(int maxElementCount);
-void deleteArrayList(ArrayList* pList);
+void deleteArrayList(ArrayList* pList); 
 int isArrayListFull(ArrayList* pList);
 int addALElement(ArrayList* pList, int position, ArrayListNode element);
 int removeALElement(ArrayList* pList, int position);
