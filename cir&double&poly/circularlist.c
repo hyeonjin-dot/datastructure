@@ -15,7 +15,7 @@ CircularList* createCircularList()
     return (pList);
 }
 
-int addLLElement(CircularList* pList, int position, CircularNode element)
+int addCLElement(CircularList* pList, int position, CircularNode element)
 {
     int idx;
     CircularNode    *tmp;
@@ -53,7 +53,7 @@ int addLLElement(CircularList* pList, int position, CircularNode element)
     return (TRUE);
 }
 
-int removeLLElement(CircularList* pList, int position)
+int removeCLElement(CircularList* pList, int position)
 {
     int             idx;
     CircularNode    *tmp;
@@ -76,7 +76,7 @@ int removeLLElement(CircularList* pList, int position)
     return (TRUE);
 }
 
-CircularNode* getLLElement(CircularList* pList, int position)
+CircularNode* getCLElement(CircularList* pList, int position)
 {
     int             idx;
     CircularNode    *tmp;
@@ -166,12 +166,12 @@ int main(void)
     {
         element.data = i;
         element.pLink = NULL;
-        addLLElement(list, i, element);
+        addCLElement(list, i, element);
     }
     displayCircularList(list);
-    removeLLElement(list, 5);
+    removeCLElement(list, 5);
     displayCircularList(list);
-    temp = getLLElement(list, 5);
+    temp = getCLElement(list, 5);
     printf("data : %d\n", temp->data);
     printf("length : %d\n", getCircularListLength(list));
     clearCircularList(list);

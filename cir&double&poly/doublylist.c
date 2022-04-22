@@ -81,7 +81,7 @@ int removeDLElement(DoublyList* pList, int position)
         return (FALSE);
     idx = -1;
     tmp = pList->headerNode.pRLink;
-    while (++idx < position - 1)//tmp->pRLink = 지울 것;
+    while (++idx < position - 1)
         tmp = tmp->pRLink;
     rm = tmp->pRLink;
     tmp->pRLink = tmp->pRLink->pRLink;
@@ -120,7 +120,8 @@ int getDoublyListLength(DoublyList* pList)
 
 DoublyListNode* getDLElement(DoublyList* pList, int position)
 {
-    int idx;
+    int             idx;
+    //int             mid;
     DoublyListNode  *tmp;
 
     if (pList == NULL)
@@ -129,6 +130,13 @@ DoublyListNode* getDLElement(DoublyList* pList, int position)
         return (FALSE);
     idx = -1;
     tmp = pList->headerNode.pRLink;
+    /*mid = pList->currentElementCount / 2;
+    if (position < mid)
+        while (++idx < position)
+            tmp = tmp->pRLink;
+    else
+        while (++idx < pList->currentElementCount - position)
+            tmp = tmp->pLLink;*/
     while (++idx < position - 1)
         tmp = tmp->pRLink;
     return (tmp);

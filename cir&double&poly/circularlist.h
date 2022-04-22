@@ -14,9 +14,9 @@ typedef struct CircularListType
 } CircularList;
 
 CircularList* createCircularList();
-int addLLElement(CircularList* pList, int position, CircularNode element);
-int removeLLElement(CircularList* pList, int position);
-CircularNode* getLLElement(CircularList* pList, int position);
+int addCLElement(CircularList* pList, int position, CircularNode element);
+int removeCLElement(CircularList* pList, int position);
+CircularNode* getCLElement(CircularList* pList, int position);
 
 void clearCircularList(CircularList* pList);
 int getCircularListLength(CircularList* pList);
