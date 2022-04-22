@@ -67,7 +67,7 @@ int removeCLElement(CircularList* pList, int position)
         return (FALSE);
     idx = -1;
     tmp = pList->headerNode.pLink;
-    while (++idx < position - 2)
+    while (++idx < position - 2)//position=0,1 -> 1,2rm
         tmp = tmp->pLink;
     rm = tmp->pLink;
     tmp->pLink = rm->pLink;
