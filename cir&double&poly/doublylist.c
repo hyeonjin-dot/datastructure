@@ -81,7 +81,7 @@ int removeDLElement(DoublyList* pList, int position)
         return (FALSE);
     idx = -1;
     tmp = pList->headerNode.pRLink;
-    while (++idx < position - 1)
+    while (++idx < position - 1)//position=0 -> rm 1
         tmp = tmp->pRLink;
     rm = tmp->pRLink;
     tmp->pRLink = tmp->pRLink->pRLink;
