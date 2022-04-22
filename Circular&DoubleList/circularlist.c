@@ -1,12 +1,12 @@
-#include "linkedlist.h"
+#include "circularlist.h"
 #include <stdio.h>
 #include <stdlib.h>
 
-LinkedList* createLinkedList()
+CircularList* createCircularList()
 {
-    LinkedList  *pList;
+    CircularList  *pList;
 
-    pList = malloc(sizeof(LinkedList));
+    pList = malloc(sizeof(CircularList));
     if (!pList)
         return (FALSE);
     pList->headerNode.pLink = NULL;
@@ -15,17 +15,21 @@ LinkedList* createLinkedList()
     return (pList);
 }
 
-int addLLElement(LinkedList* pList, int position, ListNode element)
+int addLLElement(CircularList* pList, int position, CircularNode element)
 {
-    int         idx;
-    ListNode    *tmp;
-    ListNode    *tmp2;
+    int idx;
+    CircularNode    *tmp;
+    CircularNode    *tmp2;
 
+    if (pList == NULL)
+        return (FALSE);
     if (position < 0)
         return (FALSE);
-    if (pList->currentElementCount == 0)//처음 add
+    if (position > pList->currentElementCount)
+        return (FALSE);
+    if (pList->currentElementCount == 0)
     {
-        tmp = malloc(sizeof(ListNode));
+        tmp = malloc(sizeof(CircularNode));
         if (!tmp)
             return (FALSE);
         tmp->data = element.data;
@@ -36,9 +40,9 @@ int addLLElement(LinkedList* pList, int position, ListNode element)
     {
         idx = -1;
         tmp = pList->headerNode.pLink;
-        while (++idx < position - 1 && idx < pList->currentElementCount - 1)
+        while (++idx < position - 1)
             tmp = tmp->pLink;
-        tmp2 = malloc(sizeof(ListNode));
+        tmp2 = (CircularNode *)malloc(sizeof(CircularNode));
         if (!tmp2)
             return (FALSE);
         tmp2->data = element.data;
@@ -49,12 +53,14 @@ int addLLElement(LinkedList* pList, int position, ListNode element)
     return (TRUE);
 }
 
-int removeLLElement(LinkedList* pList, int position)
+int removeLLElement(CircularList* pList, int position)
 {
-    int         idx;
-    ListNode    *tmp;
-    ListNode    *rm;
+    int             idx;
+    CircularNode    *tmp;
+    CircularNode    *rm;
 
+	if (pList == NULL)
+		return (FALSE);
     if (position < 0)
         return (FALSE);
     if (position >= pList->currentElementCount)
@@ -70,11 +76,13 @@ int removeLLElement(LinkedList* pList, int position)
     return (TRUE);
 }
 
-ListNode* getLLElement(LinkedList* pList, int position)
+CircularNode* getLLElement(CircularList* pList, int position)
 {
-    int         idx;
-    ListNode    *tmp;
+    int             idx;
+    CircularNode    *tmp;
 
+    if (pList == NULL)
+        return (FALSE);
     if (position < 0)
         return (FALSE);
     if (position >= pList->currentElementCount)
@@ -86,40 +94,52 @@ ListNode* getLLElement(LinkedList* pList, int position)
     return (tmp);
 }
 
-void clearLinkedList(LinkedList* pList)
+void clearCircularList(CircularList* pList)
 {
-    int         idx;
-    ListNode    *tmp;
-    ListNode    *tmp2;
+    int             idx;
+    CircularNode    *tmp;
+    CircularNode    *tmp2;
 
-    idx = -1;
+    if (pList == NULL)
+        return ;
+	if (pList->currentElementCount == 0)
+		return ;
     tmp = pList->headerNode.pLink;
-    while (++idx < pList->currentElementCount)
+    idx = -1;
+    while (++idx < pList->currentElementCount - 1)
     {
         tmp2 = tmp->pLink;
         free(tmp);
         tmp = tmp2;
     }
+    free(tmp);
     pList->currentElementCount = 0;
+    pList->headerNode.pLink = NULL;
 }
 
-int getLinkedListLength(LinkedList* pList)
+int getCircularListLength(CircularList* pList)
 {
+    if (pList == NULL)
+        return (FALSE);
     return (pList->currentElementCount);
 }
 
-void deleteLinkedList(LinkedList* pList)
+void deleteCircularList(CircularList* pList)
 {
+    if (pList == NULL)
+        return ;
     if (pList->currentElementCount != 0)
-        clearLinkedList(pList);
+        clearCircularList(pList);
     free(pList);
 }
 
-void displayLinkedList(LinkedList* pList)
+void displayCircularList(CircularList* pList)
 {
-    ListNode *temp;
-    int idx;
+    CircularNode    *temp;
+    int             idx;
 
+    if (pList == NULL)
+        return ;
     if (pList->currentElementCount == 0)
     {
         printf("empty list!!\n");
@@ -127,7 +147,7 @@ void displayLinkedList(LinkedList* pList)
     }
     temp = pList->headerNode.pLink;
     idx = -1;
-    while (++idx < pList->currentElementCount)
+    while (++idx < pList->currentElementCount - 1)
     {
         printf("%d -> ", temp->data);
         temp = temp->pLink;
@@ -137,25 +157,25 @@ void displayLinkedList(LinkedList* pList)
 
 int main(void)
 {
-    LinkedList *list;
-    ListNode *temp;
-    ListNode element;
+    CircularList *list;
+    CircularNode *temp;
+    CircularNode element;
 
-    list = createLinkedList();
+    list = createCircularList();
     for (int i = 0; i < 10; i++)
     {
         element.data = i;
         element.pLink = NULL;
         addLLElement(list, i, element);
     }
-    displayLinkedList(list);
+    displayCircularList(list);
     removeLLElement(list, 5);
-    displayLinkedList(list);
+    displayCircularList(list);
     temp = getLLElement(list, 5);
     printf("data : %d\n", temp->data);
-    printf("length : %d\n", getLinkedListLength(list));
-    clearLinkedList(list);
-    displayLinkedList(list);
-    deleteLinkedList(list);
+    printf("length : %d\n", getCircularListLength(list));
+    clearCircularList(list);
+    displayCircularList(list);
+    deleteCircularList(list);
     return (0);
 }

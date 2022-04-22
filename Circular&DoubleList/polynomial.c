@@ -1,4 +1,4 @@
-#include "linkedlistpolynomial.h"
+#include "polynomial.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -104,15 +104,17 @@ void clearLinkedList(LinkedList* pList)
 {
     ListNode    *tmp;
     ListNode    *tmp2;
+    int         idx;
 
-    pList->currentElementCount = 0;
     tmp = pList->headerNode.pLink;
-    while (tmp->pLink)
+    idx = -1;
+    while (++idx < pList->currentElementCount)
     {
         tmp2 = tmp->pLink;
         free(tmp);
         tmp = tmp2;
     }
+    pList->currentElementCount = 0;
 }
 
 int getLinkedListLength(LinkedList* pList)

@@ -1,9 +1,10 @@
-#ifndef _LINKEDLIST_
-#define _LINKEDLIST_
+#ifndef _POLYNOMIAL_
+#define _POLYNOMIAL_
 
 typedef struct ListNodeType
 {
-	int data;
+	int cnt;
+	int	exp;
 	struct ListNodeType* pLink;
 } ListNode;
 
@@ -22,6 +23,8 @@ void clearLinkedList(LinkedList* pList);
 int getLinkedListLength(LinkedList* pList);
 void deleteLinkedList(LinkedList* pList); 
 void displayLinkedList(LinkedList* pList);
+LinkedList* addLinkedList(LinkedList* pList, LinkedList* qList);
+
 #endif
 
 #ifndef _COMMON_LIST_DEF_

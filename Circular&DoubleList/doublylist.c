@@ -20,7 +20,7 @@ void deleteDoublyList(DoublyList* pList)
 {
     if (pList != NULL)
         return ;
-    if (!pList->headerNode.pLLink && !pList->headerNode.pRLink)
+    if (pList->currentElementCount != 0)
         clearDoublyList(pList);
     free(pList);
 }
@@ -35,12 +35,16 @@ int addDLElement(DoublyList* pList, int position, DoublyListNode element)
         return (FALSE);
     if (position < 0)
         return (FALSE);
+    if (position > pList->currentElementCount)
+        return (0);
     if (pList->currentElementCount == 0)
     {
         input = (DoublyListNode *)malloc(sizeof(DoublyListNode));
         if (!input)
             return (FALSE);
         *input = element;
+        input->pRLink = input;
+        input->pLLink = input;
         pList->headerNode.pRLink = input;
     }
     else
@@ -67,20 +71,22 @@ int removeDLElement(DoublyList* pList, int position)
 {
     int idx;
     DoublyListNode  *tmp;
-    DoublyListNode  *next;
+    DoublyListNode  *rm;
 
     if (pList == NULL)
         return (FALSE);
     if (position < 0)
         return (FALSE);
+    if (position >= pList->currentElementCount)
+        return (FALSE);
     idx = -1;
     tmp = pList->headerNode.pRLink;
     while (++idx < position - 1)//tmp->pRLink = 지울 것;
         tmp = tmp->pRLink;
-    next = tmp->pRLink;
+    rm = tmp->pRLink;
     tmp->pRLink = tmp->pRLink->pRLink;
     tmp->pRLink->pLLink = tmp;
-    free(next);
+    free(rm);
     pList->currentElementCount--;
     return (TRUE);
 }
@@ -123,26 +129,27 @@ DoublyListNode* getDLElement(DoublyList* pList, int position)
         return (FALSE);
     idx = -1;
     tmp = pList->headerNode.pRLink;
-    while (++idx < position)
+    while (++idx < position - 1)
         tmp = tmp->pRLink;
     return (tmp);
 }
 
 void displayDoublyList(DoublyList* pList)
 {
-    DoublyListNode *tmp;
+    DoublyListNode  *tmp;
+    int             idx;
 
     if (pList == NULL)
         return ;
-    if (pList->headerNode.pRLink == NULL)
-        return ;
+
     if (pList->currentElementCount == 0)
     {
         printf("list is empty\n");
         return ;
     }
     tmp = pList->headerNode.pRLink;
-    while (tmp->pRLink)
+    idx = -1;
+    while (++idx < pList->currentElementCount - 1)
     {
         printf("%d -> ", tmp->data);
         tmp = tmp->pRLink;
@@ -152,7 +159,8 @@ void displayDoublyList(DoublyList* pList)
 
 void revdisplayDoublyList(DoublyList* pList)
 {
-    DoublyListNode *tmp;
+    DoublyListNode  *tmp;
+    int             idx;
 
     if (pList == NULL)
         return ;
@@ -163,10 +171,13 @@ void revdisplayDoublyList(DoublyList* pList)
         printf("list is empty\n");
         return ;
     }
-    while (tmp->pRLink)
+	tmp = pList->headerNode.pRLink;
+    idx = -1;
+    while (++idx < pList->currentElementCount - 1)
         tmp = tmp->pRLink;
     printf("Reverse : ");
-    while (tmp->pLLink)
+    idx = -1;
+    while (++idx < pList->currentElementCount - 1)
     {
         printf("%d -> ", tmp->data);
         tmp = tmp->pLLink;
