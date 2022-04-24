@@ -13,13 +13,15 @@ typedef struct ArrayStackType
 	StackNode *pTopElement;		// Top ����� ������
 } ArrayStack;
 
-ArrayStack* createArrayStack();
+ArrayStack* createArrayStack(int maxElementCount);
 int pushAS(ArrayStack* pStack, StackNode element);
 StackNode* popAS(ArrayStack* pStack);
 StackNode* peekAS(ArrayStack* pStack);
 void deleteArrayStack(ArrayStack* pStack);
 int isArrayStackFull(ArrayStack* pStack);
 int isArrayStackEmpty(ArrayStack* pStack);
+
+void displayArrayStack(ArrayStack* pList);
 
 #endif
 
