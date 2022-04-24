@@ -23,6 +23,10 @@ int isLinkedStackEmpty(LinkedStack* pStack);
 
 void displayLinkedStack(LinkedStack* pList);
 
+char    *intopostfix(char *str);
+int	bracketcheck(char *str);
+int	calculatorpostfix(char *str);
+
 #endif
 
 #ifndef _COMMON_STACK_DEF_

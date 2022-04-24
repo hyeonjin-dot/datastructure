@@ -16,17 +16,15 @@ int isbracket(char c)
     return (0);
 }
 
-int main()
+int bracketcheck(char *str)
 {
     LinkedStack *stack;
     StackNode   element;
     StackNode   *tmp;
     int         idx;
-    char        *str;
 
 
     stack = createLinkedStack();
-    str = "(a+[b)-s]-w";
     idx = -1;
     while (str[++idx])
     {
@@ -59,9 +57,17 @@ int main()
         }
     }
     if (!isLinkedStackEmpty(stack))
+    {
         printf("FALSE\n");
-    else
-        printf("TRUE\n");
+        deleteLinkedStack(stack);
+        return (FALSE);
+    }
+    printf("TRUE\n");
     deleteLinkedStack(stack);
-    return (0);
+    return (TRUE);
 }
+
+/*int main()
+{
+    bracketcheck("(a+[b)-s]-w");
+}*/
