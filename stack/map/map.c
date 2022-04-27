@@ -4,7 +4,7 @@
 
 void	printMaze(int (*mazeArray)[WIDTH])
 {
-	char	*images[6] = {"\u2B1C", "\u2B1B", "\u2B60 ", "\u2B63 ", "\u2B62 ", "\u2B61 "};
+	char	*images[8] = {"\u2B1C", "\u2B1B", "\u2714 ", "\u2B06 ", "\u2B95 ", "\u2B07 ", "\u2B05 ", "\u2B55"};
 	for (int i = 0; i < HEIGHT; i++)
 	{
 		for (int j = 0; j < WIDTH; j++)
@@ -21,13 +21,13 @@ void	findPath(int (*mazeArray)[WIDTH], MapPosition startPos, MapPosition endPos,
 
 	while (curPos.x != endPos.x || curPos.y != endPos.y)
 	{
-		mazeArray[curPos.x][curPos.y] = VISIT;
+		mazeArray[curPos.y][curPos.x] = VISIT;
 		movable = 0; 
 		for (int i = 0; i < NUM_DIRECTIONS; i++)
 		{
 			xPos = curPos.x + DIRECTION_OFFSETS[i][0];
 			yPos = curPos.y + DIRECTION_OFFSETS[i][1];
-			if (0 <= xPos && xPos < WIDTH && 0 <= yPos && yPos < HEIGHT && mazeArray[xPos][yPos] == NOT_VISIT)
+			if (0 <= xPos && xPos < WIDTH && 0 <= yPos && yPos < HEIGHT && mazeArray[yPos][xPos] == NOT_VISIT)
 			{
 				curPos.direction = i;
 				movable = pushLSMapPosition(pStack, curPos);
@@ -47,11 +47,12 @@ void	findPath(int (*mazeArray)[WIDTH], MapPosition startPos, MapPosition endPos,
 			}
 			else
 			{
-				printf("No Path");
+				printf("[No Path]\n");
 				return ;
 			}
 		}
 	}
+	mazeArray[endPos.y][endPos.x] = ARRIVE;
 }
 
 int	pushLSMapPosition(LinkedStack *pStack, MapPosition data)
@@ -74,39 +75,14 @@ void showPath(LinkedStack *pStack, int (*mazeArray)[WIDTH])
 			maze[i][j] = mazeArray[i][j];
 	}
 	step = popLS(pStack);
-	while (step)
+	if (step)
 	{
-		maze[(step -> data).x][(step -> data).y] = (step -> data).direction + 2;
-		free(step);
-		step = popLS(pStack);
+		while (step)
+		{
+			maze[(step -> data).y][(step -> data).x] = (step -> data).direction + 3;
+			free(step);
+			step = popLS(pStack);
+		}
+		printMaze(maze);
 	}
-	printMaze(maze);
-}
-
-int main(void)
-{
-	MapPosition	start, end;
-	LinkedStack	*stack = createLinkedStack();
-	int	mazeArray[HEIGHT][WIDTH] = {
-		{0,0,1,1,1,1,1,1},
-		{1,0,0,0,0,0,0,1},
-		{1,1,1,0,1,1,1,1},
-		{1,1,1,0,1,1,1,1},
-		{1,0,0,0,0,0,0,1},
-		{1,0,1,1,1,1,1,1},
-		{1,0,0,0,0,0,0,0},
-		{1,1,1,1,1,1,1,0}
-	};
-	
-	printf("\n");
-	printf("<before pathfinding>\n");
-	printMaze(mazeArray);
-	printf("\n");
-	start.x = 0; start.y = 0;
-	end.x = WIDTH - 1; end.y = HEIGHT - 1;
-	findPath(mazeArray, start, end, stack);
-	printf("<after pathfinding>\n");
-	showPath(stack, mazeArray);
-	deleteLinkedStack(stack);
-	return (0);
 }
