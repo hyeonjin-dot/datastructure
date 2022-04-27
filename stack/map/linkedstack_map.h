@@ -1,9 +1,9 @@
 #ifndef _LINKED_STACK_
 #define _LINKED_STACK_
-
+#include "mapdef.h"
 typedef struct StackNodeType
 {
-	char data;
+	MapPosition	data;
 	struct StackNodeType* pLink;
 } StackNode;
 
@@ -26,6 +26,11 @@ void displayLinkedStack(LinkedStack* pList);
 char    *intopostfix(char *str);
 int	bracketcheck(char *str);
 int	calculatorpostfix(char *str);
+
+void	printMaze(int (*mazeArray)[WIDTH]);
+void	findPath(int (*mazeArray)[WIDTH], MapPosition startPos, MapPosition endPos, LinkedStack *pStack);
+int	pushLSMapPosition(LinkedStack *pStack, MapPosition data);
+void showPath(LinkedStack *pStack, int (*mazeArray)[WIDTH]);
 
 #endif
 
