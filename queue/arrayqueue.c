@@ -46,6 +46,8 @@ ArrayQueueNode *dequeueAQ(ArrayQueue* pQueue)
 	ret->data = peekAQ(pQueue)->data;
 	pQueue->currentElementCount--;
 	pQueue->front++;
+	if (pQueue->front == pQueue->maxElementCount)
+		pQueue->front = 0;
 	return (ret);
 }
 
