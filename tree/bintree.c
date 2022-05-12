@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include <unistd.h>
+
 BinTree* makeBinTree(BinTreeNode rootNode)
 {
 	BinTree *rtn;
@@ -90,6 +92,8 @@ void deleteBinTree(BinTree* pBinTree)
 	if (pBinTree)
 	{
 		deleteBinTreeNode(pBinTree->pRootNode);
+        if (pBinTree->pRootNode)
+            free(pBinTree->pRootNode);
 		free (pBinTree);
 	}
 }
@@ -198,7 +202,3 @@ int main()
     preorderBinTree(tree->pRootNode);
     deleteBinTree(tree);
 }
-// gcc bintree.c -g
-// lldb a.out
-// r
-// b 
