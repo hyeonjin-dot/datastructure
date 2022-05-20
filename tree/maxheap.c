@@ -74,7 +74,7 @@ HeapNode *removeMaxHeap(ArrayMaxHeap *heap)
 			&& (heap->pData[idx].data < heap->pData[idx * 2].data
 			|| heap->pData[idx].data < heap->pData[(idx * 2) + 1].data))
 			{
-				if (heap->pData[idx].data < heap->pData[idx * 2].data)
+				if (heap->pData[idx * 2 + 1].data < heap->pData[idx * 2].data)//
 					t_idx = idx * 2;
 				else
 					t_idx = idx * 2 + 1;
