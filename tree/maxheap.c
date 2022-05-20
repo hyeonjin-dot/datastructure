@@ -77,13 +77,13 @@ HeapNode *removeMaxHeap(ArrayMaxHeap *heap)
 				if (heap->pData[idx * 2 + 1].data < heap->pData[idx * 2].data)//
 					t_idx = idx * 2;
 				else
-					t_idx = idx * 2 + 1;
+					t_idx = (idx * 2) + 1;
 				tmp = heap->pData[t_idx].data;
 				heap->pData[t_idx].data = heap->pData[idx].data;
 				heap->pData[idx].data = tmp;
 				idx = t_idx;
 			}
-			rtNode->data =  heap->pData[1].data;
+			rtNode->data = heap->pData[1].data;
 		}
 	}
 	return (rtNode);
