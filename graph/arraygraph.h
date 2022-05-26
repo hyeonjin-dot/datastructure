@@ -3,40 +3,40 @@
 
 typedef struct ArrayGraphType
 {
-	int maxVertexCount;		// ÃÖ´ë ³ëµå °³¼ö
-	int currentVertexCount;	// ÇöÀç »ç¿ëµÇ´Â ³ëµåÀÇ °³¼ö
-	int graphType;			// ±×·¡ÇÁ Á¾·ù: 1-Undirected, 2-Directed
-	int **ppAdjEdge;		// °£¼± ÀúÀåÀ» À§ÇÑ 2Â÷¿ø array
-	int *pVertex;			// ³ëµå ÀúÀåÀ» À§ÇÑ 1Â÷¿ø array
+	int maxVertexCount;		// ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	int currentVertexCount;	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	int graphType;			// ï¿½×·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½: 1-Undirected, 2-Directed
+	int **ppAdjEdge;		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 2ï¿½ï¿½ï¿½ï¿½ array
+	int *pVertex;			// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 1ï¿½ï¿½ï¿½ï¿½ array
 } ArrayGraph;
 
-// ±×·¡ÇÁ »ý¼º
+// ï¿½×·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 ArrayGraph* createArrayGraph(int maxVertexCount);
 ArrayGraph* createArrayDirectedGraph(int maxVertexCount);
 
-// ±×·¡ÇÁ »èÁ¦
+// ï¿½×·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 void deleteArrayGraph(ArrayGraph* pGraph);
 
-// °ø¹é ±×·¡ÇÁ ¿©ºÎ ÆÇ´Ü
+// ï¿½ï¿½ï¿½ï¿½ ï¿½×·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ç´ï¿½
 int isEmptyAG(ArrayGraph* pGraph);
 
-// ³ëµå Ãß°¡
+// ï¿½ï¿½ï¿½ ï¿½ß°
 int addVertexAG(ArrayGraph* pGraph, int vertexID);
 
-// °£¼± Ãß°¡
+// ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
 int addEdgeAG(ArrayGraph* pGraph, int fromVertexID, int toVertexID);
 int addEdgewithWeightAG(ArrayGraph* pGraph, int fromVertexID, int toVertexID, int weight);
 
-// ³ëµåÀÇ À¯È¿¼º Á¡°Ë.
+// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 int checkVertexValid(ArrayGraph* pGraph, int vertexID);
 
-// ³ëµå Á¦°Å
+// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 int removeVertexAG(ArrayGraph* pGraph, int vertexID);
 
-// °£¼± Á¦°Å
+// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 int removeEdgeAG(ArrayGraph* pGraph, int fromVertexID, int toVertexID);
 
-// ±×·¡ÇÁ Á¤º¸ Ãâ·Â
+// ï¿½×·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 void displayArrayGraph(ArrayGraph* pGraph);
 #endif
 
