@@ -111,22 +111,32 @@ int addEdgeAG(LinkedGraph* pGraph, int fromVertexID, int toVertexID)
     pAdjEdge2 = malloc(sizeof(LinkedGraphVertex));
     if (pAdjEdge2 == NULL)
         return (FALSE);
-    tmp = ((pGraph->pVertex)[fromVertexID]).ppAdjEdge;
-    while (tmp->ppAdjEdge != NULL)
-        tmp = tmp->ppAdjEdge;
     pAdjEdge->data.vertexID = toVertexID;
     pAdjEdge->data.weight = 1;
     pAdjEdge->ppAdjEdge = NULL;
-    tmp->ppAdjEdge = pAdjEdge;
+    pAdjEdge2->data.vertexID = fromVertexID;
+    pAdjEdge2->data.weight = 1;
+    pAdjEdge2->ppAdjEdge = NULL;
+    tmp = ((pGraph->pVertex)[fromVertexID]).ppAdjEdge;
+    if (tmp == NULL)
+        ((pGraph->pVertex)[fromVertexID]).ppAdjEdge = pAdjEdge;
+    else
+    {
+        while (tmp->ppAdjEdge != NULL)
+            tmp = tmp->ppAdjEdge;
+        tmp->ppAdjEdge = pAdjEdge;
+    }
     if (pGraph->graphType == 1)
     {
         tmp = ((pGraph->pVertex)[toVertexID]).ppAdjEdge;
-        while (tmp->ppAdjEdge != NULL)
-            tmp = tmp->ppAdjEdge;
-        pAdjEdge2->data.vertexID = fromVertexID;
-        pAdjEdge2->data.weight = 1;
-        pAdjEdge2->ppAdjEdge = NULL;
-        tmp->ppAdjEdge = pAdjEdge2;        
+        if (tmp == NULL)
+            ((pGraph->pVertex)[toVertexID]).ppAdjEdge = pAdjEdge2;
+        else
+        {
+            while (tmp->ppAdjEdge != NULL)
+                tmp = tmp->ppAdjEdge;
+            tmp->ppAdjEdge = pAdjEdge2;
+        }
     }
     else
         free(pAdjEdge2);
@@ -147,22 +157,32 @@ int addEdgewithWeightAG(LinkedGraph* pGraph, int fromVertexID, int toVertexID, i
     pAdjEdge2 = malloc(sizeof(LinkedGraphVertex));
     if (pAdjEdge2 == NULL)
         return (FALSE);
-    tmp = ((pGraph->pVertex)[fromVertexID]).ppAdjEdge;
-    while (tmp->ppAdjEdge != NULL)
-        tmp = tmp->ppAdjEdge;
     pAdjEdge->data.vertexID = toVertexID;
     pAdjEdge->data.weight = weight;
     pAdjEdge->ppAdjEdge = NULL;
-    tmp->ppAdjEdge = pAdjEdge;
+    pAdjEdge2->data.vertexID = fromVertexID;
+    pAdjEdge2->data.weight = weight;
+    pAdjEdge2->ppAdjEdge = NULL;
+    tmp = ((pGraph->pVertex)[fromVertexID]).ppAdjEdge;
+    if (tmp == NULL)
+        ((pGraph->pVertex)[fromVertexID]).ppAdjEdge = pAdjEdge;
+    else
+    {
+        while (tmp->ppAdjEdge != NULL)
+            tmp = tmp->ppAdjEdge;
+        tmp->ppAdjEdge = pAdjEdge;
+    }
     if (pGraph->graphType == 1)
     {
         tmp = ((pGraph->pVertex)[toVertexID]).ppAdjEdge;
-        while (tmp->ppAdjEdge != NULL)
-            tmp = tmp->ppAdjEdge;
-        pAdjEdge2->data.vertexID = fromVertexID;
-        pAdjEdge2->data.weight = weight;
-        pAdjEdge2->ppAdjEdge = NULL;
-        tmp->ppAdjEdge = pAdjEdge2;        
+        if (tmp == NULL)
+            ((pGraph->pVertex)[toVertexID]).ppAdjEdge = pAdjEdge2;
+        else
+        {
+            while (tmp->ppAdjEdge != NULL)
+                tmp = tmp->ppAdjEdge;
+            tmp->ppAdjEdge = pAdjEdge2;
+        }
     }
     else
         free(pAdjEdge2);
@@ -239,12 +259,13 @@ void displayLinkedGraph(LinkedGraph* pGraph)
     for (int i = 0; i < pGraph->maxVertexCount; i++)
     {
         tmp = (pGraph->pVertex)[i].ppAdjEdge;
+        printf("[%d] ", i);
         while (tmp)
         {
             printf("id : %d, weight : %d | ", tmp->data.vertexID, tmp->data.weight);
             tmp = tmp->ppAdjEdge;
         }
-        printf("%d\n", i);
+        printf("\n");
     }
 }
 
@@ -257,11 +278,12 @@ int main()
     {
         addVertexAG(pGraph, i);
     }
+    displayLinkedGraph(pGraph);
     //printf("is empty %d\n", isEmptyAG(pGraph));
+    addEdgeAG(pGraph, 1, 4);
     addEdgewithWeightAG(pGraph, 0, 1, 2);
     addEdgewithWeightAG(pGraph, 1, 2, 3);
     addEdgewithWeightAG(pGraph, 2, 3, 4);
     addEdgewithWeightAG(pGraph, 3, 4, 5);
-
     displayLinkedGraph(pGraph);
 }
