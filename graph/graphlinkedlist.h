@@ -5,6 +5,7 @@ typedef struct GraphVertexType
 {
 	int vertexID;		// ��� ID
 	int weight;			// ����ġ.
+	int visited;
 } GraphVertex;
 
 typedef struct LinkedGraphVertexType
@@ -40,5 +41,8 @@ void displayLinkedGraph(LinkedGraph* pGraph);
 
 #define TRUE		1
 #define FALSE		0
+
+#define VISITED				1
+#define NOT_VISITED			0
 
 #endif

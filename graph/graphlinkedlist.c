@@ -113,9 +113,11 @@ int addEdgeAG(LinkedGraph* pGraph, int fromVertexID, int toVertexID)
         return (FALSE);
     pAdjEdge->data.vertexID = toVertexID;
     pAdjEdge->data.weight = 1;
+    pAdjEdge->data.visited = 0;
     pAdjEdge->ppAdjEdge = NULL;
     pAdjEdge2->data.vertexID = fromVertexID;
     pAdjEdge2->data.weight = 1;
+    pAdjEdge->data.visited = 0;
     pAdjEdge2->ppAdjEdge = NULL;
     tmp = ((pGraph->pVertex)[fromVertexID]).ppAdjEdge;
     if (tmp == NULL)
@@ -159,9 +161,11 @@ int addEdgewithWeightAG(LinkedGraph* pGraph, int fromVertexID, int toVertexID, i
         return (FALSE);
     pAdjEdge->data.vertexID = toVertexID;
     pAdjEdge->data.weight = weight;
+    pAdjEdge->data.visited = 0;
     pAdjEdge->ppAdjEdge = NULL;
     pAdjEdge2->data.vertexID = fromVertexID;
     pAdjEdge2->data.weight = weight;
+    pAdjEdge->data.visited = 0;
     pAdjEdge2->ppAdjEdge = NULL;
     tmp = ((pGraph->pVertex)[fromVertexID]).ppAdjEdge;
     if (tmp == NULL)
@@ -269,7 +273,7 @@ void displayLinkedGraph(LinkedGraph* pGraph)
     }
 }
 
-int main()
+/*int main()
 {
     LinkedGraph *pGraph;
 
@@ -286,4 +290,4 @@ int main()
     addEdgewithWeightAG(pGraph, 2, 3, 4);
     addEdgewithWeightAG(pGraph, 3, 4, 5);
     displayLinkedGraph(pGraph);
-}
+}*/
